@@ -23,12 +23,42 @@ git clone https://github.com/ahmedadelattya/technical-test.git
 # 2. Navigate into the project directory
 cd technical-test
 
-# 3. Build and start the Docker containers
+# 3. Copy the example environment file
+cp .env.example .env
+
+# 4. Build and start the Docker containers
 docker-compose up -d --build
 
-# 4. Generate Laravel application key
+# 5. Generate Laravel application key
 docker exec -it laravel-app php artisan key:generate
 
-# 5. Run database migrations and seed the database
+# 6. Run database migrations and seed the database
 docker exec -it laravel-app php artisan migrate --seed
 ```
+
+---
+
+## 🌐 Access the Application
+
+Your Laravel CMS should now be accessible at:  
+**http://localhost:8000**
+
+---
+
+## 🔐 Default Login Credentials
+
+You can log in using the following admin credentials:
+
+-   **Email:** `admin@test.com`
+-   **Password:** `P@ssw0rd`
+
+---
+
+## 🧭 CMS Dashboard Overview
+
+Once logged in, you can:
+
+-   Manage Users: Create, edit, assign roles
+-   Manage Roles: CRUD operations
+-   Manage Products: CRUD operations with name, description, price, etc.
+-   Manage Orders: View orders, update status, assign handlers

@@ -70,9 +70,7 @@ class UserController extends Controller
         if (empty($data['password'])) {
             unset($data['password']);
         }
-        // Update user data
         $user->update($data);
-        // Sync roles if provided
         if (isset($data['role_id'])) {
             $role = Role::findById($data['role_id']);
             $user->syncRoles([$role->name]);

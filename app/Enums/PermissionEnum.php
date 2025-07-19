@@ -7,6 +7,7 @@ enum PermissionEnum
     const GROUPS = [
         ['id' => 1, 'name' => 'users'],
         ['id' => 2, 'name' => 'roles'],
+        ['id' => 3, 'name' => 'categories'],
     ];
     // User Permissions
     const USER_CREATE = [
@@ -50,5 +51,26 @@ enum PermissionEnum
         'group_id' => 2,
         'guard_name' => 'web',
         'name' => 'role_delete'
+    ];
+    // Category Permissions
+    const CATEGORY_CREATE = [
+        'group_id' => 3,
+        'guard_name' => 'web',
+        'name' => 'category_create'
+    ];
+    const CATEGORY_UPDATE = [
+        'group_id' => 3,
+        'guard_name' => 'web',
+        'name' => 'category_update'
+    ];
+    const CATEGORY_READ = [
+        'group_id' => 3,
+        'guard_name' => 'web',
+        'name' => 'category_read'
+    ];
+    const CATEGORY_DELETE = [
+        'group_id' => 3,
+        'guard_name' => 'web',
+        'name' => 'category_delete'
     ];
 }

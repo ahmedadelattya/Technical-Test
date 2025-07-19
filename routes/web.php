@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\PermissionEnum;
+use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\ProfileController;
@@ -29,6 +30,14 @@ Route::prefix('dashboard')->middleware(['auth'])->name('dashboard.')->group(func
         Route::get('{user}/edit', [UserController::class, 'edit'])->middleware('can:' . PermissionEnum::USER_UPDATE['name'])->name('edit');
         Route::put('{user}', [UserController::class, 'update'])->middleware('can:' . PermissionEnum::USER_UPDATE['name'])->name('update');
         Route::delete('{user}', [UserController::class, 'destroy'])->middleware('can:' . PermissionEnum::USER_DELETE['name'])->name('destroy');
+    });
+    Route::prefix('categories')->name('categories.')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->middleware('can:' . PermissionEnum::CATEGORY_READ['name'])->name('index');
+        Route::get('create', [CategoryController::class, 'create'])->middleware('can:' . PermissionEnum::CATEGORY_CREATE['name'])->name('create');
+        Route::post('/', [CategoryController::class, 'store'])->middleware('can:' . PermissionEnum::CATEGORY_CREATE['name'])->name('store');
+        Route::get('{category}/edit', [CategoryController::class, 'edit'])->middleware('can:' . PermissionEnum::CATEGORY_UPDATE['name'])->name('edit');
+        Route::put('{category}', [CategoryController::class, 'update'])->middleware('can:' . PermissionEnum::CATEGORY_UPDATE['name'])->name('update');
+        Route::delete('{category}', [CategoryController::class, 'destroy'])->middleware('can:' . PermissionEnum::CATEGORY_DELETE['name'])->name('destroy');
     });
 });
 

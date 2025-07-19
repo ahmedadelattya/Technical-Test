@@ -46,6 +46,13 @@
                 </div>
             </div>
         @endcanany
+        <!-- Categories -->
+        <div class="mt-4">
+            <a href="{{ route('dashboard.categories.index') }}"
+                class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-700 {{ request()->routeIs('dashboard.categories.*') ? 'bg-gray-700 font-bold' : 'text-white font-bold' }}">
+                Categories
+            </a>
+        </div>
 
     </nav>
 </aside>

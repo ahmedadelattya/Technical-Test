@@ -26,7 +26,8 @@ RUN composer install
 RUN npm install && npm run build
 
 # Fix permissions
-RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www/storage
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 EXPOSE 9000
 CMD ["php-fpm"]

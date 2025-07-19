@@ -31,12 +31,12 @@
                     </svg>
                 </button>
                 <div x-show="openManagement" class="ml-6 mt-2 space-y-1">
-                    {{-- @can(PermissionEnum::USER_READ['name'])
+                    @can(PermissionEnum::USER_READ['name'])
                         <a href="{{ route('dashboard.users.index') }}"
                             class="flex items-center py-2 px-4 rounded-lg hover:bg-gray-700 {{ request()->routeIs('dashboard.users.*') ? 'bg-gray-700 font-bold' : 'text-white font-bold' }}">
                             Users
                         </a>
-                    @endcan --}}
+                    @endcan
                     @can(PermissionEnum::ROLE_READ['name'])
                         <a href="{{ route('dashboard.roles.index') }}"
                             class="flex items-center py-2 px-4 rounded-lg hover:bg-gray-700 {{ request()->routeIs('dashboard.roles.*') ? 'bg-gray-700 font-bold' : 'text-white font-bold' }}">

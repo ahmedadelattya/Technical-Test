@@ -4,25 +4,26 @@
             <tr>
                 <th class="px-4 py-2">#</th>
                 <th class="px-4 py-2">Name</th>
-                <th class="px-4 py-2">Permissions</th>
+                <th class="px-4 py-2">Email</th>
                 <th class="px-4 py-2 text-right">Actions</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($roles as $role)
+            @forelse ($users as $user)
                 <tr class="border-b hover:bg-gray-50">
-                    <td class="px-4 py-2">{{ $loop->iteration + ($roles->firstItem() - 1) }}</td>
-                    <td class="px-4 py-2">{{ $role->name }}</td>
-                    <td class="px-4 py-2">{{ $role->permissions_count }}</td>
+                    <td class="px-4 py-2">{{ $loop->iteration + ($users->firstItem() - 1) }}</td>
+                    <td class="px-4 py-2">{{ $user->name }}</td>
+                    <td class="px-4 py-2">{{ $user->email }}</td>
                     <td class="px-4 py-2 text-right">
-                        @can(\App\Enums\PermissionEnum::ROLE_UPDATE['name'])
-                            <a href="{{ route('dashboard.roles.edit', $role) }}" class="inline-block">
-                                <i class="fas fa-edit text-black hover:text-gray-700 transition duration-200"></i>
+                        @can(\App\Enums\PermissionEnum::USER_UPDATE['name'])
+                            <a href="{{ route('dashboard.users.edit', $user) }}" class="inline-block">
+                                <i <i class="fas fa-edit text-black hover:text-gray-700 transition duration-200"></i>
                             </a>
                         @endcan
-                        @can(\App\Enums\PermissionEnum::ROLE_DELETE['name'])
-                            <form action="{{ route('dashboard.roles.destroy', $role) }}" method="POST"
-                                class="inline-block ml-2" onsubmit="return confirm('Delete this role?')">
+
+                        @can(\App\Enums\PermissionEnum::USER_DELETE['name'])
+                            <form action="{{ route('dashboard.users.destroy', $user) }}" method="POST"
+                                class="inline-block ml-2" onsubmit="return confirm('Delete this user?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit">
@@ -36,22 +37,21 @@
                 <tr>
                     <td colspan="4" class="text-center py-8 text-gray-500">
                         @if (request('search'))
-                            No roles found matching "{{ request('search') }}"
+                            No users found matching "{{ request('search') }}"
                         @else
-                            No roles found.
+                            No users found.
                         @endif
                     </td>
                 </tr>
             @endforelse
         </tbody>
     </table>
+    @if ($users->hasPages())
+        <div class="my-4" id="pagination-container">
+            {{ $users->appends(request()->query())->links() }}
+        </div>
+    @endif
 </div>
-
-@if ($roles->hasPages())
-    <div class="mt-4" id="pagination-container">
-        {{ $roles->appends(request()->query())->links() }}
-    </div>
-@endif
 
 <script>
     // Handle pagination clicks for AJAX
@@ -71,7 +71,7 @@
                         })
                         .then(response => response.text())
                         .then(html => {
-                            document.getElementById('roles-container').innerHTML = html;
+                            document.getElementById('users-container').innerHTML = html;
                             history.replaceState(null, '', url);
                         })
                         .catch(error => {

@@ -62,6 +62,10 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
+        if ($user->id === 1) {
+            return redirect()->route('dashboard.users.edit', $user->id)
+                ->with('error', 'Cannot update the super admin.');
+        }
         $data = $request->validated();
         if (empty($data['password'])) {
             unset($data['password']);

@@ -2,6 +2,7 @@
 
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\ProfileController;
@@ -38,6 +39,14 @@ Route::prefix('dashboard')->middleware(['auth'])->name('dashboard.')->group(func
         Route::get('{category}/edit', [CategoryController::class, 'edit'])->middleware('can:' . PermissionEnum::CATEGORY_UPDATE['name'])->name('edit');
         Route::put('{category}', [CategoryController::class, 'update'])->middleware('can:' . PermissionEnum::CATEGORY_UPDATE['name'])->name('update');
         Route::delete('{category}', [CategoryController::class, 'destroy'])->middleware('can:' . PermissionEnum::CATEGORY_DELETE['name'])->name('destroy');
+    });
+    Route::prefix('products')->name('products.')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->middleware('can:' . PermissionEnum::PRODUCT_READ['name'])->name('index');
+        Route::get('create', [ProductController::class, 'create'])->middleware('can:' . PermissionEnum::PRODUCT_CREATE['name'])->name('create');
+        Route::post('/', [ProductController::class, 'store'])->middleware('can:' . PermissionEnum::PRODUCT_CREATE['name'])->name('store');
+        Route::get('{product}/edit', [ProductController::class, 'edit'])->middleware('can:' . PermissionEnum::PRODUCT_UPDATE['name'])->name('edit');
+        Route::put('{product}', [ProductController::class, 'update'])->middleware('can:' . PermissionEnum::PRODUCT_UPDATE['name'])->name('update');
+        Route::delete('{product}', [ProductController::class, 'destroy'])->middleware('can:' . PermissionEnum::PRODUCT_DELETE['name'])->name('destroy');
     });
 });
 

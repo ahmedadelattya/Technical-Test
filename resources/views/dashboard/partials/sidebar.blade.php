@@ -53,6 +53,13 @@
                 Categories
             </a>
         </div>
+        <!-- Products -->
+        <div class="mt-4">
+            <a href="{{ route('dashboard.products.index') }}"
+                class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-700 {{ request()->routeIs('dashboard.products.*') ? 'bg-gray-700 font-bold' : 'text-white font-bold' }}">
+                Products
+            </a>
+        </div>
 
     </nav>
 </aside>

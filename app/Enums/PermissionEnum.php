@@ -8,6 +8,8 @@ enum PermissionEnum
         ['id' => 1, 'name' => 'users'],
         ['id' => 2, 'name' => 'roles'],
         ['id' => 3, 'name' => 'categories'],
+        ['id' => 4, 'name' => 'products'],
+
     ];
     // User Permissions
     const USER_CREATE = [
@@ -72,5 +74,30 @@ enum PermissionEnum
         'group_id' => 3,
         'guard_name' => 'web',
         'name' => 'category_delete'
+    ];
+
+    // Product Permissions
+    const PRODUCT_CREATE = [
+        'group_id' => 4,
+        'guard_name' => 'web',
+        'name' => 'product_create'
+    ];
+
+    const PRODUCT_UPDATE = [
+        'group_id' => 4,
+        'guard_name' => 'web',
+        'name' => 'product_update'
+    ];
+
+    const PRODUCT_READ = [
+        'group_id' => 4,
+        'guard_name' => 'web',
+        'name' => 'product_read'
+    ];
+
+    const PRODUCT_DELETE = [
+        'group_id' => 4,
+        'guard_name' => 'web',
+        'name' => 'product_delete'
     ];
 }

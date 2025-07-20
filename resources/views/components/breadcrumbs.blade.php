@@ -29,15 +29,7 @@
                 // Get real index in full path segments
                 $segmentIndexInFull = $fullPathSegments->search($segment);
                 $url = url($fullPathSegments->slice(0, $segmentIndexInFull + 1)->implode('/'));
-                $isDisabled = in_array($segment, [
-                    'news',
-                    'media-library',
-                    'journeys',
-                    'stories',
-                    'paths',
-                    'steps',
-                    'pages',
-                ]);
+                $isDisabled = in_array($segment, []);
             @endphp
 
             @if ($isDisabled)

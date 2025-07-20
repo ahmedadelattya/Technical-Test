@@ -1,19 +1,17 @@
 @csrf
-<div class="space-y-4">
+<div class="space-y-4" x-data="{ name: '{{ old('name', $product->name ?? '') }}', slug: '{{ old('slug', $product->slug ?? '') }}' }" x-init="$watch('name', value => slug = value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, ''))">
     {{-- Name + Slug --}}
     <div class="flex flex-wrap gap-4">
         <div class="flex-1 min-w-[250px]">
             <label class="block mb-1 font-medium text-gray-700">Name <span class="text-red-500">*</span></label>
-            <input type="text" name="name" class="w-full border p-2" value="{{ old('name', $product->name ?? '') }}"
-                required>
+            <input type="text" name="name" class="w-full border p-2" x-model="name" required>
             @error('name')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
         <div class="flex-1 min-w-[250px]">
             <label class="block mb-1 font-medium text-gray-700">Slug <span class="text-red-500">*</span></label>
-            <input type="text" name="slug" class="w-full border p-2"
-                value="{{ old('slug', $product->slug ?? '') }}" required>
+            <input type="text" name="slug" class="w-full border p-2" x-model="slug" required>
             @error('slug')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror

@@ -42,7 +42,7 @@ docker exec -it laravel-app php artisan migrate --seed
 
 After copying `.env.example` to `.env`, ensure the following database settings are correctly set for Docker:
 
-````env
+```env
 DB_CONNECTION=mysql
 DB_HOST=db
 DB_PORT=3306
@@ -50,7 +50,7 @@ DB_DATABASE=laravel
 DB_USERNAME=laravel
 DB_PASSWORD=secret
 DB_ROOT_PASSWORD=root
-
+```
 ---
 
 ## 🌐 Access the Application

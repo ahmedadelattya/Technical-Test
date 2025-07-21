@@ -63,7 +63,7 @@
                     {{-- Price --}}
                     <td class="px-4 py-2">
                         <span class="text-gray-800 font-semibold">
-                            {{ number_format($product->price, 2) }} $
+                            ${{ number_format($product->price, 2) }}
                         </span>
                     </td>
 
@@ -111,10 +111,10 @@
             @empty
                 <tr>
                     <td colspan="8" class="text-center py-8 text-gray-500">
-                        @if (request()->anyFilled(['search', 'status', 'category', 'tag', 'theme']))
-                            No news posts found matching your filters.
+                        @if (request()->anyFilled(['search', 'category', 'minPrice', 'maxPrice']))
+                            No Products found matching your filters.
                         @else
-                            No news posts found.
+                            No Products found.
                         @endif
                     </td>
                 </tr>

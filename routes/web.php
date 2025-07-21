@@ -2,6 +2,7 @@
 
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\OrderController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
@@ -48,14 +49,12 @@ Route::prefix('dashboard')->middleware(['auth'])->name('dashboard.')->group(func
         Route::put('{product}', [ProductController::class, 'update'])->middleware('can:' . PermissionEnum::PRODUCT_UPDATE['name'])->name('update');
         Route::delete('{product}', [ProductController::class, 'destroy'])->middleware('can:' . PermissionEnum::PRODUCT_DELETE['name'])->name('destroy');
     });
-});
-
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::prefix('orders')->name('orders.')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->middleware('can:' . PermissionEnum::ORDER_READ['name'])->name('index');
+        Route::get('{order}/edit', [OrderController::class, 'edit'])->middleware('can:' . PermissionEnum::ORDER_UPDATE['name'])->name('edit');
+        Route::put('{order}/status', [OrderController::class, 'updateStatus'])->middleware('can:' . PermissionEnum::ORDER_UPDATE['name'])->name('updateStatus');
+        Route::put('{order}/employee', [OrderController::class, 'updateEmployee'])->middleware('can:' . PermissionEnum::ORDER_UPDATE['name'])->name('updateEmployee');
+    });
 });
 
 require __DIR__ . '/auth.php';

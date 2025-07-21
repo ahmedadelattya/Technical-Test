@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.app')
 
 @section('content')
-    <div class="p-6" x-data="productSearch()">
+    <div class="p-6" x-data="orderSearch()">
         <!-- Flash Messages -->
         @if (session('success'))
             <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
@@ -20,7 +20,7 @@
             <div class="flex w-full md:max-w-md gap-2">
                 <!-- Search -->
                 <div class="relative flex-1">
-                    <input type="text" x-model="searchTerm" @input="debounceSearch()" placeholder="Search products..."
+                    <input type="text" x-model="searchTerm" @input="debounceSearch()" placeholder="Search orders..."
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     <div class="absolute right-3 top-2.5">
                         <!-- Spinner or Icon -->
@@ -48,62 +48,30 @@
                     </svg>
                 </button>
             </div>
-
-            <!-- Create Product -->
-            <div>
-                <a href="{{ route('dashboard.products.create') }}"
-                    class="bg-black hover:bg-gray-700 font-medium text-white px-4 py-2 rounded-lg flex items-center gap-2">
-                    <span>Create Product</span>
-                    <span class="text-lg font-bold">+</span>
-                </a>
-            </div>
         </div>
 
         <!-- Filters -->
-        <div x-show="showFilters" x-transition class="mb-4 grid grid-cols-1 md:grid-cols-4 gap-4">
-            <!-- Category -->
+        <div x-show="showFilters" x-transition class="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Status -->
             <div>
-                <select x-model="categoryFilter" @change="performSearch()"
+                <select x-model="statusFilter" @change="performSearch()"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">All Categories</option>
-                    @foreach ($categories as $cat)
-                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                    <option value="">All Statuses</option>
+                    @foreach ($statuses as $status)
+                        <option value="{{ $status->id }}">{{ ucfirst($status->name) }}</option>
                     @endforeach
                 </select>
             </div>
-
-            <!-- Min Price -->
-            <div class="relative">
-                <input type="number" min="0" x-model="minPrice" @input="debouncePriceSearch()"
-                    placeholder="Min Price"
-                    class="w-full pr-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <div class="absolute right-3 top-2.5" x-show="priceLoading">
-                    <svg class="animate-spin w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                            stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                        </path>
-                    </svg>
-                </div>
+            <!-- Employees -->
+            <div>
+                <select x-model="employeeFilter" @change="performSearch()"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">All Employees</option>
+                    @foreach ($employees as $employee)
+                        <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                    @endforeach
+                </select>
             </div>
-
-            <!-- Max Price -->
-            <div class="relative">
-                <input type="number" min="0" x-model="maxPrice" @input="debouncePriceSearch()"
-                    placeholder="Max Price"
-                    class="w-full pr-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <div class="absolute right-3 top-2.5" x-show="priceLoading">
-                    <svg class="animate-spin w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                            stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                        </path>
-                    </svg>
-                </div>
-            </div>
-
             <!-- Clear Filters -->
             <div>
                 <button @click="clearFilters()" class="w-full bg-gray-500 text-white px-4 py-2 rounded-lg">
@@ -113,23 +81,21 @@
         </div>
 
         <!-- Results -->
-        <div id="products-container">
-            @include('dashboard.products.partials.table', ['products' => $products])
+        <div id="orders-container">
+            @include('dashboard.orders.partials.table', ['orders' => $orders])
         </div>
     </div>
 
     <script>
-        function productSearch() {
+        function orderSearch() {
             return {
                 searchTerm: '{{ $search ?? '' }}',
-                categoryFilter: '{{ $category ?? '' }}',
-                minPrice: '{{ $minPrice ?? '' }}',
-                maxPrice: '{{ $maxPrice ?? '' }}',
+                statusFilter: '',
+                employeeFilter: '',
                 loading: false,
                 priceLoading: false,
                 showFilters: false,
                 searchTimeout: null,
-                priceTimeout: null,
 
                 debounceSearch() {
                     clearTimeout(this.searchTimeout);
@@ -139,15 +105,7 @@
                     }, 500);
                 },
 
-                debouncePriceSearch() {
-                    clearTimeout(this.priceTimeout);
-                    this.priceLoading = true;
-                    this.priceTimeout = setTimeout(() => {
-                        this.performSearch(true);
-                    }, 500);
-                },
-
-                performSearch(fromPrice = false) {
+                performSearch() {
                     const url = new URL(window.location.href);
 
                     if (this.searchTerm.trim()) {
@@ -156,31 +114,20 @@
                         url.searchParams.delete('search');
                     }
 
-                    if (this.categoryFilter) {
-                        url.searchParams.set('category', this.categoryFilter);
+                    if (this.statusFilter) {
+                        url.searchParams.set('status', this.statusFilter);
                     } else {
-                        url.searchParams.delete('category');
+                        url.searchParams.delete('status');
                     }
 
-                    if (this.minPrice) {
-                        url.searchParams.set('min_price', this.minPrice);
+                    if (this.employeeFilter) {
+                        url.searchParams.set('employee', this.employeeFilter);
+                        console.log('employee : ' + this.employeeFilter);
                     } else {
-                        url.searchParams.delete('min_price');
-                    }
-
-                    if (this.maxPrice) {
-                        url.searchParams.set('max_price', this.maxPrice);
-                    } else {
-                        url.searchParams.delete('max_price');
+                        url.searchParams.delete('employee');
                     }
 
                     url.searchParams.set('page', 1);
-
-                    if (fromPrice) {
-                        this.priceLoading = true;
-                    } else {
-                        this.loading = true;
-                    }
 
                     fetch(url.toString(), {
                             headers: {
@@ -190,7 +137,7 @@
                         })
                         .then(response => response.text())
                         .then(html => {
-                            document.getElementById('products-container').innerHTML = html;
+                            document.getElementById('orders-container').innerHTML = html;
                             this.loading = false;
                             this.priceLoading = false;
                             history.replaceState(null, '', url.toString());
@@ -204,17 +151,11 @@
 
                 clearFilters() {
                     this.searchTerm = '';
-                    this.categoryFilter = '';
-                    this.minPrice = '';
-                    this.maxPrice = '';
+                    this.statusFilter = '';
+                    this.employeeFilter = '';
                     this.performSearch();
                 }
             }
-
-
         }
-        console.log("Initial category:", "{{ $category }}");
-        console.log("Initial minPrice:", "{{ $minPrice }}");
-        console.log("Initial maxPrice:", "{{ $maxPrice }}");
     </script>
 @endsection

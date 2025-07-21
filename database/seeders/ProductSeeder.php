@@ -17,7 +17,7 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         $categories = Category::pluck('id')->toArray();
-        Product::factory(20)->create()->each(function ($product) use ($categories) {
+        Product::factory(50)->create()->each(function ($product) use ($categories) {
             $randomCategories = collect($categories)->shuffle()->take(rand(1, 3))->toArray();
             $product->categories()->attach($randomCategories);
             $media = [

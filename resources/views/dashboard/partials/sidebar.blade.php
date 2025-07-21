@@ -60,6 +60,13 @@
                 Products
             </a>
         </div>
+        <!-- Orders -->
+        <div class="mt-4">
+            <a href="{{ route('dashboard.orders.index') }}"
+                class="flex items-center py-3 px-4 rounded-lg hover:bg-gray-700 {{ request()->routeIs('dashboard.orders.*') ? 'bg-gray-700 font-bold' : 'text-white font-bold' }}">
+                Orders
+            </a>
+        </div>
 
     </nav>
 </aside>

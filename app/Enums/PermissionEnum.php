@@ -9,6 +9,8 @@ enum PermissionEnum
         ['id' => 2, 'name' => 'roles'],
         ['id' => 3, 'name' => 'categories'],
         ['id' => 4, 'name' => 'products'],
+        ['id' => 5, 'name' => 'orders'],
+
 
     ];
     // User Permissions
@@ -99,5 +101,18 @@ enum PermissionEnum
         'group_id' => 4,
         'guard_name' => 'web',
         'name' => 'product_delete'
+    ];
+
+    // Order Permissions
+    const ORDER_READ = [
+        'group_id' => 5,
+        'guard_name' => 'web',
+        'name' => 'order_read'
+    ];
+
+    const ORDER_UPDATE = [
+        'group_id' => 5,
+        'guard_name' => 'web',
+        'name' => 'order_update'
     ];
 }

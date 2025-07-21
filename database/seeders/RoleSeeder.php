@@ -18,9 +18,13 @@ class RoleSeeder extends Seeder
         $reflection = new \ReflectionClass(PermissionEnum::class);
         $permissions = $reflection->getConstants();
         $admin_role = Role::createOrFirst(['id' => 1, 'name' => 'admin']);
+        $employeeRole = Role::firstOrCreate(['name' => 'employee']);
         foreach ($permissions as $key => $permissionData) {
             if (is_array($permissionData) && isset($permissionData['group_id'])) {
                 $admin_role->givePermissionTo($permissionData['name']);
+                if (!in_array($permissionData['group_id'], [1, 2])) {
+                    $employeeRole->givePermissionTo($permissionData['name']);
+                }
             }
         }
     }

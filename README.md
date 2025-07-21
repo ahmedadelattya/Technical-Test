@@ -51,6 +51,7 @@ DB_USERNAME=laravel
 DB_PASSWORD=secret
 DB_ROOT_PASSWORD=root
 ```
+
 ---
 
 ## 🌐 Access the Application
@@ -80,6 +81,13 @@ Once logged in, you can:
 
 ---
 
+## 🗺️ Entity Relationship Diagram (ERD)
+
+You can view the ERD for the project using the following link:  
+[View ERD](https://drive.google.com/file/d/16slEnyM8sWFQT1kp8qaL2feOqx-T_v2h/view?usp=sharing)
+
+---
+
 ## ✅ Running Tests
 
 The application includes **unit and feature tests** for CMS functionalities.
@@ -88,4 +96,4 @@ To run all tests inside the Laravel container:
 
 ```bash
 docker exec -it laravel-app php artisan test
-````
+```

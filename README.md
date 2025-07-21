@@ -38,9 +38,24 @@ docker exec -it laravel-app php artisan migrate --seed
 
 ---
 
+## ⚙️ Environment Configuration Notes
+
+After copying `.env.example` to `.env`, ensure the following database settings are correctly set for Docker:
+
+````env
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=laravel
+DB_PASSWORD=secret
+DB_ROOT_PASSWORD=root
+
+---
+
 ## 🌐 Access the Application
 
-Your Laravel CMS should now be accessible at:  
+Your Laravel CMS should now be accessible at:
 **http://localhost:8000**
 
 ---
@@ -62,3 +77,15 @@ Once logged in, you can:
 -   Manage Roles: CRUD operations
 -   Manage Products: CRUD operations with name, description, price, etc.
 -   Manage Orders: View orders, update status, assign handlers
+
+---
+
+## ✅ Running Tests
+
+The application includes **unit and feature tests** for CMS functionalities.
+
+To run all tests inside the Laravel container:
+
+```bash
+docker exec -it laravel-app php artisan test
+````
